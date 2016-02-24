@@ -91,7 +91,11 @@ shinyServer(
             options(width = input$totwidth)
             
             # Display only the specified fields
-            xx <- subset(xx, select = input$xshow)
+            #xx <- subset(xx, select = input$xshow)
+            xx <- subset(xx, select = append(input$xshow, input$xshow2))
+            print(paste0("input$xshow2=", input$xshow2)) # DEBUG
+            print(input$xshow2)
+            print(length(input$xshow2))
             #for (i in 1:length(input$xshow)){
             #  xx[[input$xshow[i]]] <- strtrim(xx[[input$xshow[i]]], width=input$colwidth)
             #}

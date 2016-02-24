@@ -7,13 +7,27 @@ shinyUI(pageWithSidebar(
         textInput("EMPLOYER_NAME",  "Search EMPLOYER_NAME",  value = "") ,
         textInput("WORKSITE_CITY",  "Search WORKSITE_CITY",  value = "") ,
         textInput("WORKSITE_STATE", "Search WORKSITE_STATE", value = "") ,
-        selectInput("xsearch1", NULL,
-                    choice   = c("EMPLOYMENT_START_DATE","JOB_TITLE","SOC_NAME","TOTAL.WORKERS","PW_WAGE_LEVEL","PREVAILING_WAGE","PW_UNIT_OF_PAY","WAGE_RATE_OF_PAY","WAGE_UNIT_OF_PAY","LOW_WAGE","WAGE_PW","H.1B_DEPENDENT","WILLFUL.VIOLATOR"),
-                    selected = "H.1B_DEPENDENT"), 
+        selectInput("xsearch1", NULL, choices =
+            c("EMPLOYMENT_START_DATE","JOB_TITLE","SOC_NAME","TOTAL.WORKERS","PW_WAGE_LEVEL","PREVAILING_WAGE",
+              "PW_UNIT_OF_PAY","WAGE_RATE_OF_PAY","WAGE_UNIT_OF_PAY","LOW_WAGE","WAGE_PW","H.1B_DEPENDENT","WILLFUL.VIOLATOR",
+
+              "CASE_NUMBER","CASE_SUBMITTED","DECISION_DATE","VISA_CLASS","EMPLOYMENT_END_DATE","EMPLOYER_ADDRESS1",
+              "EMPLOYER_ADDRESS2","EMPLOYER_CITY","EMPLOYER_STATE","EMPLOYER_POSTAL_CODE","EMPLOYER_COUNTRY",
+              "EMPLOYER_PROVINCE","EMPLOYER_PHONE","EMPLOYER_PHONE_EXT","AGENT_ATTORNEY_NAME","AGENT_ATTORNEY_CITY",
+              "AGENT_ATTORNEY_STATE","SOC_CODE","NAIC_CODE","FULL_TIME_POSITION","PW_WAGE_SOURCE",
+              "PW_WAGE_SOURCE_YEAR","PW_WAGE_SOURCE_OTHER","WORKSITE_COUNTY","WORKSITE_POSTAL_CODE"),
+            selected = "H.1B_DEPENDENT"),
         textInput("ysearch1", NULL, value = ""),
-        selectInput("xsearch2", NULL,
-                    choice   = c("EMPLOYMENT_START_DATE","JOB_TITLE","SOC_NAME","TOTAL.WORKERS","PW_WAGE_LEVEL","PREVAILING_WAGE","PW_UNIT_OF_PAY","WAGE_RATE_OF_PAY","WAGE_UNIT_OF_PAY","LOW_WAGE","WAGE_PW","H.1B_DEPENDENT","WILLFUL.VIOLATOR"),
-                    selected = "WILLFUL.VIOLATOR"), 
+        selectInput("xsearch2", NULL, choices =
+            c("EMPLOYMENT_START_DATE","JOB_TITLE","SOC_NAME","TOTAL.WORKERS","PW_WAGE_LEVEL","PREVAILING_WAGE",
+              "PW_UNIT_OF_PAY","WAGE_RATE_OF_PAY","WAGE_UNIT_OF_PAY","LOW_WAGE","WAGE_PW","H.1B_DEPENDENT","WILLFUL.VIOLATOR",
+
+              "CASE_NUMBER","CASE_SUBMITTED","DECISION_DATE","VISA_CLASS","EMPLOYMENT_END_DATE","EMPLOYER_ADDRESS1",
+              "EMPLOYER_ADDRESS2","EMPLOYER_CITY","EMPLOYER_STATE","EMPLOYER_POSTAL_CODE","EMPLOYER_COUNTRY",
+              "EMPLOYER_PROVINCE","EMPLOYER_PHONE","EMPLOYER_PHONE_EXT","AGENT_ATTORNEY_NAME","AGENT_ATTORNEY_CITY",
+              "AGENT_ATTORNEY_STATE","SOC_CODE","NAIC_CODE","FULL_TIME_POSITION","PW_WAGE_SOURCE",
+              "PW_WAGE_SOURCE_YEAR","PW_WAGE_SOURCE_OTHER","WORKSITE_COUNTY","WORKSITE_POSTAL_CODE"),
+            selected = "WILLFUL.VIOLATOR"), 
         textInput("ysearch2", NULL, value = ""),
         # List fields to be sorted by
         selectInput("xsort", "Sort by",
@@ -25,10 +39,17 @@ shinyUI(pageWithSidebar(
             choice   = c("CASE_STATUS","EMPLOYMENT_START_DATE","EMPLOYER_NAME","JOB_TITLE","SOC_NAME","TOTAL.WORKERS","PW_WAGE_LEVEL","PREVAILING_WAGE","PW_UNIT_OF_PAY","WAGE_RATE_OF_PAY","WAGE_UNIT_OF_PAY","LOW_WAGE","WAGE_PW","H.1B_DEPENDENT","WILLFUL.VIOLATOR","WORKSITE_CITY","WORKSITE_STATE"),
             selected = c("CASE_STATUS",                        "EMPLOYER_NAME","JOB_TITLE",           "TOTAL.WORKERS",                                                   "WAGE_RATE_OF_PAY",                              "WAGE_PW",                                    "WORKSITE_CITY","WORKSITE_STATE"),
             inline = TRUE),
+        selectInput("xshow2", "Show (other)", choices =
+            c("CASE_NUMBER","CASE_SUBMITTED","DECISION_DATE","VISA_CLASS","EMPLOYMENT_END_DATE","EMPLOYER_ADDRESS1",
+              "EMPLOYER_ADDRESS2","EMPLOYER_CITY","EMPLOYER_STATE","EMPLOYER_POSTAL_CODE","EMPLOYER_COUNTRY",
+              "EMPLOYER_PROVINCE","EMPLOYER_PHONE","EMPLOYER_PHONE_EXT","AGENT_ATTORNEY_NAME","AGENT_ATTORNEY_CITY",
+              "AGENT_ATTORNEY_STATE","SOC_CODE","NAIC_CODE","FULL_TIME_POSITION","PW_WAGE_SOURCE",
+              "PW_WAGE_SOURCE_YEAR","PW_WAGE_SOURCE_OTHER","WORKSITE_COUNTY","WORKSITE_POSTAL_CODE"),
+            selected = "", multiple = TRUE),
         # List options for maximum column width, total width, and total rows
-        textInput("colwidth",  "Maximum Column Width", value = "40") ,
-        textInput("totwidth",  "Maximum Total Width", value = "240") ,
-        textInput("totrows",  "Maximum Total Rows", value = "900") ),
+        numericInput("colwidth", "Maximum Column Width", value = "40") ,
+        numericInput("totwidth", "Maximum Total Width",  value = "240") ,
+        numericInput("totrows",  "Maximum Total Rows",   value = "900") ),
     mainPanel(
         div(
             tabsetPanel(id = "tabs",

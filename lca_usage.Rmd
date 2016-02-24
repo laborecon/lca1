@@ -6,7 +6,7 @@ Usage
 This application filters H-1B Disclosure Data for fiscal year 2015 from the Office of Foreign Labor Certification (OFLC).  This data is from the Labor Condition
 Applications (LCAs) and are from a file downloaded from https://www.foreignlaborcert.doleta.gov/docs/py2015q4/H-1B_Disclosure_Data_FY15_Q4.xlsx.  The file and a
 document describing the file structure can be accessed by going to https://www.foreignlaborcert.doleta.gov/performancedata.cfm and clicking on the Disclosure
-Data tab.  Following are the fields from the file (plus two computed fields) that are available in this application:
+Data tab.  Following are the main fields from the file (plus two computed fields) that are available in this application:
 
 ```
 *  1. CASE_STATUS      - Valid values include "CERTIFIED", "CERTIFIED-WITHDRAWN", "DENIED" or "WITHDRAWN".
@@ -30,34 +30,34 @@ Data tab.  Following are the fields from the file (plus two computed fields) tha
 * selected for display at initialization
 ```
 
-Following are additional fields in the file which are not currently available in this application:
+Following are additional fields in the file which can be searched using the two variable search boxes described in section 3 below.  In addition, they can be selected for display as described in section 6 below.
 
 ```
-CASE_NUMBER          - Unique identifier assigned to each application.
-CASE_SUBMITTED       - Date and time the application was submitted.
-DECISION_DATE        - Date of the last significant event or decision.
-VISA_CLASS           - valid values are H-1B, E-3 Australian, H-1B1 Chile and H-1B1 Singapore.    
-EMPLOYMENT_END_DATE  - Ending date of employment
-EMPLOYER_ADDRESS1    - Contact information of the Employer requesting labor certification
-EMPLOYER_ADDRESS2    
-EMPLOYER_CITY
-EMPLOYER_STATE
-EMPLOYER_POSTAL_CODE
-EMPLOYER_COUNTRY
-EMPLOYER_PROVINCE    
-EMPLOYER_PHONE
-EMPLOYER_PHONE_EXT
-AGENT_ATTORNEY_NAME  - Name of Agent or Attorney filing an H-1B application in employer's behalf.
-AGENT_ATTORNEY_CITY  - City of the Agent or Attorney filing an H-1B application in employer's behalf.
-AGENT_ATTORNEY_STATE - State of the Agent or Attorney filing an H-1B application in employer's behalf.
-SOC_CODE             - Occupational code of job as classified by the Standard Occupational Classification (SOC) System.
-NAIC_CODE            - Industry code of employer as classified by the North American Industrial Classification System (NAICS)
-FULL_TIME_POSITION   - Y = Full Time Position, N = Part Time Position, or blank 
-PW_WAGE_SOURCE       - Variables include "OES", "CBA", "DBA", "SCA" or "Other"     
-PW_WAGE_SOURCE_YEAR  - Year the Prevailing Wage Source was Issued
-PW_WAGE_SOURCE_OTHER - If "Other Wage Source", provide the source of wage
-WORKSITE_COUNTY      - County information of the foreign worker's intended area of employment
-WORKSITE_POSTAL_CODE - Zip Code information of the foreign worker's intended area of employment
+  18. CASE_NUMBER          - Unique identifier assigned to each application.
+  19. CASE_SUBMITTED       - Date and time the application was submitted.
+  20. DECISION_DATE        - Date of the last significant event or decision.
+  21. VISA_CLASS           - valid values are H-1B, E-3 Australian, H-1B1 Chile and H-1B1 Singapore.    
+  22. EMPLOYMENT_END_DATE  - Ending date of employment
+  23. EMPLOYER_ADDRESS1    - Contact information of the Employer requesting labor certification
+  24. EMPLOYER_ADDRESS2    
+  25. EMPLOYER_CITY
+  26. EMPLOYER_STATE
+  27. EMPLOYER_POSTAL_CODE
+  28. EMPLOYER_COUNTRY
+  29. EMPLOYER_PROVINCE    
+  30. EMPLOYER_PHONE
+  31. EMPLOYER_PHONE_EXT
+  32. AGENT_ATTORNEY_NAME  - Name of Agent or Attorney filing an H-1B application in employer's behalf.
+  33. AGENT_ATTORNEY_CITY  - City of the Agent or Attorney filing an H-1B application in employer's behalf.
+  34. AGENT_ATTORNEY_STATE - State of the Agent or Attorney filing an H-1B application in employer's behalf.
+  35. SOC_CODE             - Occupational code of job as classified by the Standard Occupational Classification (SOC) System.
+  36. NAIC_CODE            - Industry code of employer as classified by the North American Industrial Classification System (NAICS)
+  37. FULL_TIME_POSITION   - Y = Full Time Position, N = Part Time Position, or blank 
+  38. PW_WAGE_SOURCE       - Variables include "OES", "CBA", "DBA", "SCA" or "Other"     
+  39. PW_WAGE_SOURCE_YEAR  - Year the Prevailing Wage Source was Issued
+  40. PW_WAGE_SOURCE_OTHER - If "Other Wage Source", provide the source of wage
+  41. WORKSITE_COUNTY      - County information of the foreign worker's intended area of employment
+  42. WORKSITE_POSTAL_CODE - Zip Code information of the foreign worker's intended area of employment
 ```
 
 Any of the available fields can be selected by checking the corresponding checkbox.  The CASE_STATUS, EMPLOYER_NAME, WORKSITE_CITY, and WORKSITE_STATE can be searched by
@@ -147,6 +147,8 @@ the number of workers and rows to drop by 1.  Hence, there would appear to be on
 other than a space.  Fortunately, this can be found by typing the pattern ^APPLE[^ ] into the EMPLOYER_NAME search box.  In this context, the caret ^
 means "not" and the pattern is searching for APPLE followed by a character that is NOT a space.  This reveals that this one EMPLOYER_NAME is APPLE, INC
 where the non-space following APPLE is a comma.
+
+As can be seen, the first four search boxes are used strictly for searching CASE_STATUS, EMPLOYER_NAME, WORKSITE_CITY, and WORKSITE_STATE, respectively.  Those are followed by two variable search boxes which can search any of the other fields, including the additional ones numbered 18 through 42 above.
 
 ### 4. Use of Sort Select List and Ascending/Descending Radio Buttons ###
 
@@ -322,7 +324,11 @@ output from the prior section with PREVAILING_WAGE unchecked:
 Any combination of the checkboxes may be checked so that any combination of fields can be displayed.  The only limitation is that the fields will
 always display in the same order as the order of the checkboxes.
 
-### 6. Use of Other Options ###
+### 6. Use of the Show (other) Select List ###
+
+Checkboxes exist only for the main fields numbered 1 to 17 above.  However, the additional fields numbered 18 to 42 above and be displayed by selecting them from the select list labelled "Show (other)".  Any number of the fields can be selected from this list.  As with the checkboxes, the only limitation is that the fields will always display in the same order as they appear in the select list.  In addition, they will appear after any fields selected via the checkboxes.
+
+### 7. Use of Other Options ###
 
 The remaining options are the Maximum Column Width, Maximum Total Width, and Maximum Total Rows.  The following shows the effect of a Maximum Column Width
 of 20 on the last output from the prior section:
@@ -394,3 +400,7 @@ Finally, the following shows the effect of a Maximum Total Rows of 4 (with Maxim
 ```
 
 As can be seen, the number of rows is simply truncated to 5.
+
+### 8. Source Code ###
+
+The source code for this app can be found at https://github.com/laborecon/lca1 .  The one item missing from there is the data file.  It can be created by opening the original OFLC file at https://www.foreignlaborcert.doleta.gov/docs/py2015q4/H-1B_Disclosure_Data_FY15_Q4.xlsx , saving it to a CSV (Comma delimited)(*.csv) file, naming it H-1B_FY15_Q4.csv, and placing it the same directory as server.R.
