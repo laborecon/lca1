@@ -1,0 +1,396 @@
+Usage
+=====
+
+### 1. Data Characteristics ###
+
+This application filters H-1B Disclosure Data for fiscal year 2015 from the Office of Foreign Labor Certification (OFLC).  This data is from the Labor Condition
+Applications (LCAs) and are from a file downloaded from https://www.foreignlaborcert.doleta.gov/docs/py2015q4/H-1B_Disclosure_Data_FY15_Q4.xlsx.  The file and a
+document describing the file structure can be accessed by going to https://www.foreignlaborcert.doleta.gov/performancedata.cfm and clicking on the Disclosure
+Data tab.  Following are the fields from the file (plus two computed fields) that are available in this application:
+
+```
+*  1. CASE_STATUS      - Valid values include "CERTIFIED", "CERTIFIED-WITHDRAWN", "DENIED" or "WITHDRAWN".
+   2. EMPLOYMENT_START_DATE - Beginning date of employment
+*  3. EMPLOYER_NAME    - Name of employer submitting labor condition application.
+*  4. JOB_TITLE        - Title of the job
+   5. SOC_NAME         - Occupational name associated with the SOC_CODE
+*  6. TOTAL.WORKERS    - Total number of foreign workers requested by the Employer(s)       
+   7. PW_WAGE_LEVEL    - Variables include "Level I", "Level II", "Level III", "Level IV" or blank.
+   8. PREVAILING_WAGE  - Prevailing Wage for the job being requested for temporary labor condition.
+   9. PW_UNIT_OF_PAY   - Unit of pay.  Valid values include "Hour", "Week", "Bi-Weekly", "Month", "Year" or blank.
+* 10. WAGE_RATE_OF_PAY - Rate of pay offered
+  11. WAGE_UNIT_OF_PAY - Unit of pay.  Valid values include "Hour", "Week", "Bi-Weekly", "Month", "Year" or blank. 
+  12. LOW_WAGE         - Lower of the one or two fields in the WAGE_RATE_OF_PAY field (computed).
+* 13. WAGE_PW          - Ratio obtained by dividing the LOW_WAGE field by the PREVAILING_WAGE field (computed).
+  14. H.1B_DEPENDENT   - Y = Employer is H-1B Dependent, else N     
+  15. WILLFUL.VIOLATOR - Y = Employer has been previously found to be a Willful Violator, else N
+* 16. WORKSITE_CITY    - City of the foreign worker's intended area of employment
+* 17. WORKSITE_STATE   - State of the foreign worker's intended area of employment
+
+* selected for display at initialization
+```
+
+Following are additional fields in the file which are not currently available in this application:
+
+```
+CASE_NUMBER          - Unique identifier assigned to each application.
+CASE_SUBMITTED       - Date and time the application was submitted.
+DECISION_DATE        - Date of the last significant event or decision.
+VISA_CLASS           - valid values are H-1B, E-3 Australian, H-1B1 Chile and H-1B1 Singapore.    
+EMPLOYMENT_END_DATE  - Ending date of employment
+EMPLOYER_ADDRESS1    - Contact information of the Employer requesting labor certification
+EMPLOYER_ADDRESS2    
+EMPLOYER_CITY
+EMPLOYER_STATE
+EMPLOYER_POSTAL_CODE
+EMPLOYER_COUNTRY
+EMPLOYER_PROVINCE    
+EMPLOYER_PHONE
+EMPLOYER_PHONE_EXT
+AGENT_ATTORNEY_NAME  - Name of Agent or Attorney filing an H-1B application in employer's behalf.
+AGENT_ATTORNEY_CITY  - City of the Agent or Attorney filing an H-1B application in employer's behalf.
+AGENT_ATTORNEY_STATE - State of the Agent or Attorney filing an H-1B application in employer's behalf.
+SOC_CODE             - Occupational code of job as classified by the Standard Occupational Classification (SOC) System.
+NAIC_CODE            - Industry code of employer as classified by the North American Industrial Classification System (NAICS)
+FULL_TIME_POSITION   - Y = Full Time Position, N = Part Time Position, or blank 
+PW_WAGE_SOURCE       - Variables include "OES", "CBA", "DBA", "SCA" or "Other"     
+PW_WAGE_SOURCE_YEAR  - Year the Prevailing Wage Source was Issued
+PW_WAGE_SOURCE_OTHER - If "Other Wage Source", provide the source of wage
+WORKSITE_COUNTY      - County information of the foreign worker's intended area of employment
+WORKSITE_POSTAL_CODE - Zip Code information of the foreign worker's intended area of employment
+```
+
+Any of the available fields can be selected by checking the corresponding checkbox.  The CASE_STATUS, EMPLOYER_NAME, WORKSITE_CITY, and WORKSITE_STATE can be searched by
+putting a pattern into the first four search boxes, respectively.  Any other field can be searched in either of the following two search boxes by selecting its name in
+the select list and entering a pattern into the search box below it.
+
+
+
+### 2. Output from Default Selections ###
+
+At initialization, the eight fields indicated by a leading asterisk (*) in the above list of available fields are shown and are sorted by the field TOTAL.WORKERS in a
+descending order.  Following are the first 45 rows that are displayed:
+
+```
+[1] "Sort by TOTAL.WORKERS, Descending"
+[1] ""
+[1] "H-1B Disclosure Data FY15 Q4"
+[1] ""
+[1] "SUM(TOTAL.WORKERS) = 1,258,354"
+[1] "NUMBER OF ROWS     = 618,804"
+[1] ""
+    CASE_STATUS                            EMPLOYER_NAME                                JOB_TITLE WORKERS      WAGE_RATE_OF_PAY WAGE_PW    WORKSITE_CITY STATE
+1     CERTIFIED                   SYNTEL CONSULTING INC.                       PROGRAMMER ANALYST     300               57366 -  1.0000          PHOENIX    AZ
+2   CERT-WITHDR              QUALCOMM TECHNOLOGIES, INC.                        HARDWARE ENGINEER     200     75878.40 - 110600  1.0000        SAN DIEGO    CA
+3     CERTIFIED                     CAYLEY AEROSPACE INC                       SOFTWARE DEVELOPER     200   81500.00 - 97500.00  1.0008         LYNNWOOD    WA
+4     CERTIFIED                     CAYLEY AEROSPACE INC                      MECHANICAL ENGINEER     200   65200.00 - 79600.00  1.0031         LYNNWOOD    WA
+5     CERTIFIED          PRESENCE SAINT FRANCIS HOSPITAL RESIDENT PHYSICIAN/CHIEF RESIDENT PHYSIC     200            51270.00 -  1.2239         EVANSTON    IL
+6     CERTIFIED                WILLIAM BEAUMONT HOSPITAL                RESIDENT PHYSICIAN/FELLOW     180            50086.00 -  1.3674        ROYAL OAK    MI
+7     CERTIFIED                         GEMINIITLABS INC                       SOFTWARE DEVELOPER     155               73000 -  1.0492         CRANFORD    NJ
+8     CERTIFIED                   JUNIPER NETWORKS, INC.                        SOFTWARE ENGINEER     150        98488 - 250000  1.0000        SUNNYVALE    CA
+9     CERTIFIED                               APPLE INC.                      ELECTRICAL ENGINEER     150               83824 -  1.0000        CUPERTINO    CA
+10    CERTIFIED                               APPLE INC.      SOFTWARE ENGINEER, SYSTEMS SOFTWARE     150               98488 -  1.0000        CUPERTINO    CA
+11    CERTIFIED                               APPLE INC.               COMPUTER HARDWARE ENGINEER     150               94120 -  1.0000        CUPERTINO    CA
+12    CERTIFIED                               APPLE INC.          SOFTWARE ENGINEER, APPLICATIONS     150              131269 -  1.0000        CUPERTINO    CA
+13    CERTIFIED                               APPLE INC.          SOFTWARE ENGINEER, APPLICATIONS     150               88254 -  1.0000        CUPERTINO    CA
+14    CERTIFIED                               APPLE INC.                      ELECTRICAL ENGINEER     150              121410 -  1.0000        CUPERTINO    CA
+15    WITHDRAWN                               APPLE INC.                      MECHANICAL ENGINEER     150              109470 -  1.0000        CUPERTINO    CA
+16    CERTIFIED                               APPLE INC.               COMPUTER HARDWARE ENGINEER     150              134410 -  1.0000        CUPERTINO    CA
+17    CERTIFIED                               APPLE INC.                                  MANAGER     150              163467 -  1.0000        CUPERTINO    CA
+18    CERTIFIED                               APPLE INC.                                  MANAGER     150               99466 -  1.0000        CUPERTINO    CA
+19    CERTIFIED                               APPLE INC. SOFTWARE QUALITY ASSURANCE ENGINEER AND      150               94598 -  1.0000        CUPERTINO    CA
+20    CERTIFIED                               APPLE INC.                      MECHANICAL ENGINEER     150               74006 -  1.0000        CUPERTINO    CA
+21    CERTIFIED                               APPLE INC. SOFTWARE QUALITY ASSURANCE ENGINEER AND      150               60528 -  1.0000        CUPERTINO    CA
+22    CERTIFIED                               APPLE INC.      SOFTWARE ENGINEER, SYSTEMS SOFTWARE     150              132038 -  1.0000        CUPERTINO    CA
+23    WITHDRAWN                               APPLE INC.                         GRAPHIC DESIGNER     150               36046 -  1.0000        CUPERTINO    CA
+24    CERTIFIED                               APPLE INC.                 COMPUTER SYSTEMS ANALYST     150               66602 -  1.0000        CUPERTINO    CA
+25    CERTIFIED                               APPLE INC.              OPERATIONS RESEARCH ANALYST     150              117187 -  1.0000        CUPERTINO    CA
+26    CERTIFIED                               APPLE INC.                       MATERIALS ENGINEER     150              104832 -  1.0000        CUPERTINO    CA
+27    CERTIFIED                               APPLE INC.                         GRAPHIC DESIGNER     150               63856 -  1.0000        CUPERTINO    CA
+28    CERTIFIED                               APPLE INC.                      INDUSTRIAL DESIGNER     150               58885 -  1.0000        CUPERTINO    CA
+29    CERTIFIED                               APPLE INC.                       MATERIALS ENGINEER     150               71032 -  1.0000        CUPERTINO    CA
+30    CERTIFIED                               APPLE INC.                 COMPUTER SYSTEMS ANALYST     150              104042 -  1.0000        CUPERTINO    CA
+31    CERTIFIED                               APPLE INC.              OPERATIONS RESEARCH ANALYST     150               69784 -  1.0000        CUPERTINO    CA
+32    CERTIFIED                               APPLE INC.                      INDUSTRIAL DESIGNER     150               88962 -  1.0000        CUPERTINO    CA
+33    CERTIFIED                               APPLE INC.                      ENGINEERING MANAGER     150              154107 -  1.0000        CUPERTINO    CA
+34    CERTIFIED                               APPLE INC.                      ENGINEERING MANAGER     150              123053 -  1.0000        CUPERTINO    CA
+35    CERTIFIED                               APPLE INC.                      MECHANICAL ENGINEER     150              109470 -  1.0000        CUPERTINO    CA
+36    CERTIFIED                               APPLE INC.                         GRAPHIC DESIGNER     150               36046 -  1.0000        CUPERTINO    CA
+37    CERTIFIED                               APPLE INC.      SOFTWARE ENGINEER, SYSTEMS SOFTWARE     150              132038 -  1.0000        CUPERTINO    CA
+38    CERTIFIED                               APPLE INC.      SOFTWARE ENGINEER, SYSTEMS SOFTWARE     150               98488 -  1.0000        CUPERTINO    CA
+39    CERTIFIED PRESENCE SAINT JOSEPH HOSPITAL - CHICAGO RESIDENT PHYSICIAN/CHIEF RESIDENT PHYSIC     150            51270.00 -  1.2239          CHICAGO    IL
+40    CERTIFIED                     CAYLEY AEROSPACE INC                       SOFTWARE DEVELOPER     150   76100.00 - 93700.00  1.0004         LYNNWOOD    WA
+41    CERTIFIED                         GEMINIITLABS INC                       PROGRAMMER ANALYST     142               60000 -  1.0586         CRANFORD    NJ
+42    CERTIFIED               PRICEWATERHOUSECOOPERS LLP                      ASSURANCE ASSOCIATE     125         54746 - 72200  1.0000         NEW YORK    NY
+43    CERTIFIED        TATA CONSULTANCY SERVICES LIMITED                 DEVELOPER USER INTERFACE     105               62400 -  1.0917       FRAMINGHAM    MA
+44    CERTIFIED                           SYNOPSYS, INC.               UNIX SYSTEMS ADMINISTRATOR     100        71418 - 146418  1.0000    MOUNTAIN VIEW    CA
+45    CERTIFIED                   SYNTEL CONSULTING INC.                       PROGRAMMER ANALYST     100               59030 -  1.0000          MEMPHIS    TN
+```
+
+Two minor column name changes are visible above.  The column name for TOTAL.WORKERS and WORKSITE_STATE were changed to WORKERS and STATE to cut down the width
+of the columns.  For the same reason, the CASE_STATUS OF CERTIFIED-WITHDRAWN was changed to CERT-WITHDR.  Unseen is that the column name EMPLOYMENT_START_DATE
+is changed to EMP_START_DATE.
+
+### 3. Use of Search Boxes and Regex ###
+
+As can be seen above, APPLE INC. submitted a large number of applications which requested 150 workers each.  Specifically, there were 31 such applications and
+all but 2 were certified.  It's unclear as to whether this may be related to the opening of Apple's new Campus 2 (referred by some as the "Spaceship Campus"),
+due to open in late 2016 or early 2017 in Cupertino.
+
+The search boxes can be used to focus in on Apple by entering CERTIFIED, APPLE, and CUPERTINO into the first three.  The total number of applications and
+workers is output just above the listing.  As can be seen, APPLE had 1,277 applications certified in 2015 for a total of 8,683 H-1B workers.
+
+It should be noted that the searches use the function grep which in turn uses regex expressions as described <A HREF="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">here</A>.
+In regex expressions, the characters ^ and $ indicate the beginning and end of a line, respectively.  Adding a caret ^ immediately before APPLE give the
+same totals, indicating that all of the APPLE matches are at the beginning of the EMPLOYER_NAME.  However, I noticed that typing a space after APPLE causes
+the number of workers and rows to drop by 1.  Hence, there would appear to be one application for one worker which starts with APPLE followed by something
+other than a space.  Fortunately, this can be found by typing the pattern ^APPLE[^ ] into the EMPLOYER_NAME search box.  In this context, the caret ^
+means "not" and the pattern is searching for APPLE followed by a character that is NOT a space.  This reveals that this one EMPLOYER_NAME is APPLE, INC
+where the non-space following APPLE is a comma.
+
+### 4. Use of Sort Select List and Ascending/Descending Radio Buttons ###
+
+Below the search boxes are a select list labelled "Sort by" and 2 radio buttons labelled Ascending and Descending.  At initialization, these are set to sort
+on TOTAL.WORKERS in descending order.  One thing that sorting is useful for is examining the upper and lower limits of selected variables.  Among other things,
+this is sometimes useful in searching for errors in the data.  For example, following are the first 30 rows of when sorting on WAGE_PW in descending order:
+
+```
+[1] "Sort by WAGE_PW, Descending"
+[1] ""
+[1] "H-1B Disclosure Data FY15 Q4"
+[1] ""
+[1] "SUM(TOTAL.WORKERS) = 1,258,354"
+[1] "NUMBER OF ROWS     = 618,804"
+[1] ""
+   CASE_STATUS                          EMPLOYER_NAME                               JOB_TITLE WORKERS PREVAILING_WAGE WAGE_RATE_OF_PAY  WAGE_PW   WORKSITE_CITY STATE
+1       DENIED                   HARRIS THERAPY, INC.             SPEECH LANGUAGE PATHOLOGIST       1            0.00          37.50 -      Inf        HONOLULU    HI
+2       DENIED               WESTERN PNEUMATICS, INC.                     MECHANICAL ENGINEER       1            0.00       35000.00 -      Inf          EUGENE    OR
+3       DENIED                JONATHAN A KUIPERS PLLC                                 DENTIST       1            0.00  160000 - 250000      Inf         GARLAND    TX
+4       DENIED                        JERK DINING LLC                               HEAD CHEF       1            0.00     9.00 - 16.00      Inf      DORCHESTER    MA
+5       DENIED            SPARTA SOFTWARE CORPORATION                        SPORTS SCIENTIST       1            0.00          60000 -      Inf      MENLO PARK    CA
+6    WITHDRAWN                  WELDED TUBE USA, INC.       ERW TUBE AND PIPE MILL CONSULTANT       1        99070.00       19000000 - 191.7836      LACKAWANNA    NY
+7  CERT-WITHDR     NICKELODEON ANIMATION STUDIOS INC.                     STORYBOARD DIRECTOR       1        92726.00       11700023 - 126.1785         BURBANK    CA
+8    CERTIFIED ST. MARY'S DULUTH CLINIC HEALTH SYSTEM                            NEUROSURGEON       1        36795.00         800000 -  21.7421          DULUTH    MN
+9    WITHDRAWN     COMPUTER EVIDENCE SPECIALISTS, LLC           SENIOR SOFTWARE TEST ENGINEER       1        39749.00         790000 -  19.8747       NASHVILLE    TN
+10   WITHDRAWN                        YALE UNIVERSITY                     ASSOCIATE PROFESSOR       1        48320.00         900000 -  18.6258       NEW HAVEN    CT
+11   CERTIFIED                 UNIVERSITY OF COLORADO PROGRAM DIRECTOR/COORDINATOR/INSTRUCTOR       1           39.50         728.40 -  18.4405         BOULDER    CO
+12   CERTIFIED                   SANFORD CLINIC NORTH                            NEUROSURGEON       1        40706.00         712500 -  17.5036           FARGO    ND
+13   CERTIFIED                       DECO MODELS,INC.                           FASHION MODEL       1           15.05  250.00 - 350.00  16.6113     MIAMI BEACH    FL
+14   CERTIFIED                       DECO MODELS,INC.                           FASHION MODEL       1           15.05  250.00 - 350.00  16.6113     MIAMI BEACH    FL
+15   CERTIFIED         MC2 MODEL AND TALENT MIAMI LLC                           FASHION MODEL       1           15.05            250 -  16.6113     MIAMI BEACH    FL
+16      DENIED      NEW DREAM FASHION MEDIA GROUP LLC              PROFESSIONAL FASHION MODEL       1           15.05        250 - 500  16.6113       LAS VEGAS    NV
+17   CERTIFIED           MC2 MODEL & TALENT MIAMI LLC                           FASHION MODEL       1           15.05        250 - 500  16.6113     MIAMI BEACH    FL
+18      DENIED     NEW DREAM FASHJION MEDIA GROUP LLC              PROFESSIONAL FASHION MODEL       1           15.05         250.00 -  16.6113       LAS VEGAS    NV
+19   CERTIFIED         MC2 MODEL AND TALENT MIAMI LLC                           FASHION MODEL       1           15.05        250 - 500  16.6113     MIAMI BEACH    FL
+20   CERTIFIED        FEDERAL WAY ASSET MANAGEMENT LP  PRESIDENT AND CHIEF INVESTMENT OFFICER       1       133869.00        2163000 -  16.1576     FEDERAL WAY    WA
+21   CERTIFIED                       SANFORD BISMARCK                            NEUROSURGEON       1        40706.00         650000 -  15.9682        BISMARCK    ND
+22   WITHDRAWN                ORTHOS ENTERPRISES INC.                    QUANTITATIVE MODELER       1        53955.00         850000 -  15.7539      PITTSBURGH    PA
+23   WITHDRAWN                 WAYNE STATE UNIVERSITY           POST DOCTORAL RESEARCH FELLOW       1        57325.00         871500 -  15.2028         DETROIT    MI
+24   CERTIFIED          MYCON INFORMATION SYSTEM, INC                    COMPUTER PROGRAMMERS       1        53872.00         800000 -  14.8500        HIAWATHA    IA
+25   WITHDRAWN                LOCHMUELLER GROUP, INC.                  ENVIRONMENTAL ENGINEER       1        49400.00      728000.00 -  14.7368  JEFFERSONVILLE    IN
+26   CERTIFIED                 UNIVERSITY OF COLORADO                              INSTRUCTOR       1           18.40         269.23 -  14.6321         BOULDER    CO
+27   CERTIFIED              TRANSFAST REMITTANCE, LLC                 SENIOR GRAPHIC DESIGNER       1        51688.00         750000 -  14.5101        NEW YORK    NY
+28   CERTIFIED               GREENVILLE HEALTH SYSTEM                       PHYSICIAN/SURGEON       1        19278.00      279000.00 -  14.4725       GREENWOOD    SC
+29   CERTIFIED                PARKVIEW HOSPITAL, INC.                             HOSPITALIST       1        16906.00         240000 -  14.1961      FORT WAYNE    IN
+30   WITHDRAWN          INNOSPIRE SYSTEMS CORPORATION                      PROGRAMMER ANALYST       1        43118.00         600000 -  13.9153 NORTH BRUNSWICK    NJ
+```
+
+As previously mentioned, WAGE_PW is a computed variable equal to PREVAILING_WAGE divided by the lower of the one or two wages given by WAGE_RATE_OF_PAY.
+As can be seen, the first 5 rows have an infinite WAGE_PW because PREVAILING_WAGE is set equal to zero.  This is an obvious mistake and these applications
+were all denied.  The next two rows have obviously mistaken WAGE_RATE_OF_PAY values of 19 and 11.7 million dollars but both were withdrawn.  From row 8
+through 21, all of the CERTIFIED applications have a JOB_TITLE of NEUROSURGEON, FASHION MODEL, and PRESIDENT and CIO (with one exception of PROGRAM
+DIRECTOR).  These are difficult to judge but row 24 with a JOB_TITLE of COMPUTER PROGRAMMERS lists a lower WAGE_RATE_OF_PAY of $800,000.  This is almost
+surely a mistake with the actual wage being perhaps one-tenth of that number.  In that case, the programmers would have a lower WAGE_RATE_OF_PAY of $80,000,
+still above the prevailing wage of $53,872.  To find cases of CERTIFIED applications where the actual lower WAGE_RATE_OF_PAY is likely LESS than the
+prevailing wage, it would make sense to look at those with a WAGE_PW just under 10.  Following are the 41st through the 80th rows of CERTIFIED applications:
+
+```
+    CASE_STATUS                            EMPLOYER_NAME                                JOB_TITLE WORKERS PREVAILING_WAGE  WAGE_RATE_OF_PAY WAGE_PW  WORKSITE_CITY STATE
+41    CERTIFIED                       UNICON PHARMA INC.                    VALIDATION SPECIALIST       1        74027.00       740277.00 - 10.0001  SOCIAL CIRCLE    GA
+42    CERTIFIED         FLORIDA STATE DISTRIBUTORS, INC.              PRODUCT DEVELOPMENT ANALYST       1        50856.00       508256.00 -  9.9940        ORLANDO    FL
+43    CERTIFIED          AJO UNIFIED SCHOOL DISTRICT #15                                  TEACHER       1        31790.00          317690 -  9.9934            AJO    AZ
+44    CERTIFIED                     THE DATA CENTER, INC               ON-LINE SYSTEMS INTEGRATOR       1        55120.00          550120 -  9.9804        FAIRFAX    VA
+45    CERTIFIED                      INNOVIS HEALTH, LLC                       GASTROENTEROLOGIST       1        53102.00          525000 -  9.8866          FARGO    ND
+46    CERTIFIED                              IDIBON INC.         CHIEF OPERATIONS MANAGER AND CEO       1       189592.00         1826000 -  9.6312  SAN FRANCISCO    CA
+47    CERTIFIED          TRADITION (NORTH AMERICA), INC.                 EXECUTIVE VICE PRESIDENT       1       220813.00         2125000 -  9.6235       NEW YORK    NY
+48    CERTIFIED                    VIA CHRISTI CLINIC PA                             CARDIOLOGIST       1        43326.00          400000 -  9.2323        WICHITA    KS
+49    CERTIFIED                 VIA CHRISTI CLINIC, P.A.                             CARDIOLOGIST       1        43326.00          400000 -  9.2323        WICHITA    KS
+50    CERTIFIED TEXAS TECH UNIVERSITY HEALTH SCIENCES CE       ASSISTANT PROFESSOR - NEUROSURGERY       1        38790.00          350000 -  9.0229        LUBBOCK    TX
+51    CERTIFIED                   FOOTBALL NORTHWEST LLC CHIROPRACTOR/ART PROVIDER AND INSTRUCTOR       1           27.90             250 -  8.9606         RENTON    WA
+52    CERTIFIED          THE ESTEE LAUDER COMPANIES INC.                        PRESIDENT AND CEO       1       204090.00         1800000 -  8.8196       NEW YORK    NY
+53    CERTIFIED                    BAKER & MCKENZIE P.C.  DIRECTOR OF PROFESSIONAL RESPONSIBILITY       1       125050.00         1100000 -  8.7965        CHICAGO    IL
+54    CERTIFIED                 UNIVERSITY OF PITTSBURGH                      ASSISTANT PROFESSOR       1           24.21          208.33 -  8.6051     PITTSBURGH    PA
+55    CERTIFIED                 UNIVERSITY OF PITTSBURGH                      ASSISTANT PROFESSOR       1           24.21          208.33 -  8.6051     PITTSBURGH    PA
+56    CERTIFIED                 DEACONESS HOSPITAL, INC.                            PULMONOLOGIST       1        40706.00          350000 -  8.5982     EVANSVILLE    IN
+57    CERTIFIED                 DEACONESS HOSPITAL, INC.                            PULMONOLOGIST       1        40706.00          350000 -  8.5982       NEWBURGH    IN
+58    CERTIFIED                 DEACONESS HOSPITAL, INC.                            PULMONOLOGIST       1        40706.00          350000 -  8.5982       NEWBURGH    IN
+59    CERTIFIED                 DEACONESS HOSPITAL, INC.                            PULMONOLOGIST       1        40706.00          350000 -  8.5982     EVANSVILLE    IN
+60    CERTIFIED PAUL, WEISS, RIFKIND, WHARTON & GARRISON                                   LAWYER       1       210704.00         1800000 -  8.5428       NEW YORK    NY
+61    CERTIFIED   ST. MARY'S DULUTH CLINIC HEALTH SYSTEM                       GASTROENTEROLOGIST       1        52749.00          450000 -  8.5310         DULUTH    MN
+62    CERTIFIED   ST. MARY'S DULUTH CLINIC HEALTH SYSTEM                       GASTROENTEROLOGIST       1        52749.00          450000 -  8.5310         DULUTH    MN
+63    CERTIFIED          FEDERAL WAY ASSET MANAGEMENT LP          DEPUTY CHIEF INVESTMENT OFFICER       1       133869.00         1138777 -  8.5067    FEDERAL WAY    WA
+64    CERTIFIED                           AVERA MCKENNAN                  TRANSPLANT HEPATOLOGIST       1        53102.00       450000.00 -  8.4743    SIOUX FALLS    SD
+65    CERTIFIED      UNIVERSITY SURGICAL ASSOCIATES, LLP             CLINICAL ASSISTANT PROFESSOR       1        40851.00          340940 -  8.3459       SYRACUSE    NY
+66    CERTIFIED TEXAS TECH UNIVERSITY HEALTH SCIENCES CE                      ASSOCIATE PROFESSOR       1        38790.00       323362.40 -  8.3362        LUBBOCK    TX
+67    CERTIFIED TEXAS TECH UNIVERSITY HEALTH SCIENCES CE                      ASSOCIATE PROFESSOR       1        38790.00       323362.40 -  8.3362        LUBBOCK    TX
+68    CERTIFIED         ANDERSON REGIONAL MEDICAL CENTER                 EMERGENCY ROOM PHYSICIAN       1           25.53          210.00 -  8.2256       MERIDIAN    MS
+69    CERTIFIED        UNIVERSITY OF ILLINOIS AT CHICAGO VISITING CLINICAL PROFESSOR/PHYSICIAN SU       1           20.06          161.54 -  8.0528        CHICAGO    IL
+70    CERTIFIED            UPMC COMMUNITY MEDICINE, INC.                      ORTHOPAEDIC SURGEON       1        49816.00          400000 -  8.0295     MCKEESPORT    PA
+71    CERTIFIED       WASHINGTON UNIVERSITY IN ST. LOUIS           ASSISTANT PROFESSOR OF FINANCE       1        27200.00          215000 -  7.9044      ST. LOUIS    MO
+72    CERTIFIED THE UNIVERSITY OF TEXAS HEALTH SCIENCE C                      ASSISTANT PROFESSOR       1        50544.00          395833 -  7.8315  THE WOODLANDS    TX
+73    CERTIFIED                 WEST VIRGINIA UNIVERSITY                      ASSISTANT PROFESSOR       1        31147.00          239775 -  7.6982       FAIRMONT    WV
+74    CERTIFIED                 WEST VIRGINIA UNIVERSITY                      ASSISTANT PROFESSOR       1        31147.00          239775 -  7.6982     BRIDGEPORT    WV
+75    CERTIFIED                 WEST VIRGINIA UNIVERSITY                      ASSISTANT PROFESSOR       1        31147.00          239775 -  7.6982         WESTON    WV
+76    CERTIFIED THE BOARD OF TRUSTEES OF THE LELAND STAN                      ASSISTANT PROFESSOR       1        31010.00          234840 -  7.5730       STANFORD    CA
+77    CERTIFIED    THE UNIVERSITY OF SOUTHERN CALIFORNIA                  PROFESSOR OF ACCOUNTING       1        48700.00          367500 -  7.5462    LOS ANGELES    CA
+78    CERTIFIED UNIVERSITY OF CHICAGO-BOOTH SCHOOL OF BU                      ASSISTANT PROFESSOR       1        24450.00          184000 -  7.5256        CHICAGO    IL
+79    CERTIFIED    UNIVERSITY OF CALIFORNIA, LOS ANGELES                   PROFESSOR IN RESIDENCE       1        53730.00          400000 -  7.4446    LOS ANGELES    CA
+80    CERTIFIED               PENINSULA DENTAL CENTER PC                              ENDODONTIST       1           13.30              99 -  7.4436      SALISBURY    MD
+```
+
+For the first four rows, the lower WAGE_RATE_OF_PAY is equal to the PREVAILING_WAGE with exactly one digit added.  The next 20 rows are chiefly medical professionals,
+executives, or lawyers so it's difficult to judge their validity.  Rows 65 to 67 and 71 to 79 are all PROFESSORS and all but two are ASSISTANT or ASSOCIATE PROFESSORS.
+Yet they all have a lower WAGE_RATE_OF_PAY between $215,000 and $400,000.  Many, if not all, of these numbers may contain an extra zero meaning that these professors
+are being paid less than the prevailing wage.  Yet it appears that they were certified because the mistaken addition of a zero to their wage made it appear to be
+larger than the prevailing wage as required.
+
+Following are the first ten rows when sorting on WAGE_PW, Ascending:
+
+```
+[1] "Sort by WAGE_PW, Ascending"
+[1] ""
+   CASE_STATUS                  EMPLOYER_NAME                                JOB_TITLE WORKERS PREVAILING_WAGE WAGE_RATE_OF_PAY WAGE_PW  WORKSITE_CITY STATE
+1       DENIED             MSM LUXURY ESTATES          BUSINESS DEVELOPMENT SPECIALIST       1           90210          18.49 -  0.0002  BEVERLY HILLS    CA
+2       DENIED             I&I SOFTWARE, INC.                        SOFTWARE ENGINEER       1         9110400       91200.00 -  0.0100       NEW YORK    NY
+3       DENIED           ZUNAIRA PHARMACY INC PHARMACEUTICAL MARKETING & COMPLIANCE  M       1            2015          52.02 -  0.0258   FOREST HILLS    NY
+4       DENIED                      LHB, INC.                                        F       1          345000          20000 -  0.0580         2 WORK    ME
+5       DENIED              HCL AMERICA, INC.                  PROGRAMMER ANALYST - II       5          627541    62754 - 83000  0.1000       OAKBROOK    IL
+6       DENIED                      RAVIG INC                    SYSTEMS ADMINISTRATOR       1          780000    78000 - 94000  0.1000   MOUNTAINVIEW    CA
+7    WITHDRAWN                      RAVIG INC                    SYSTEMS ADMINISTRATOR       1          780000    78000 - 94000  0.1000   WALNUT CREEK    CA
+8       DENIED                 PROMATRIX CORP                        SOFTWARE ENGINEER       1          731240          75000 -  0.1026 FRANKLIN LAKES    NJ
+9       DENIED THE CHILDREN'S MUSEUM OF TAMPA                    EDUCATION COORDINATOR       1          277123          30000 -  0.1083          TAMPA    FL
+10      DENIED                     JELLI INC.    SENIOR BACKEND ENGINEER - AD PLATFORM       1         1144000         130000 -  0.1136      SAN MATEO    CA
+```
+
+Following are the first ten rows with the same sorting but searching only for CASE_STATUS of CERTIFIED:
+
+```
+[1] "Search CASE_STATUS for CERTIFIED"
+[1] "Sort by WAGE_PW, Ascending"
+[1] ""
+   CASE_STATUS                          EMPLOYER_NAME                         JOB_TITLE WORKERS PREVAILING_WAGE WAGE_RATE_OF_PAY WAGE_PW WORKSITE_CITY STATE
+1    CERTIFIED A&B HOTEL MANAGEMENT & INVESTMENT INC.                 MARKETING ANALYST       1           51667          51557 -  0.9979     PLACENTIA    CA
+2    CERTIFIED        OMRON OILFIELD AND MARINE, INC.    CONTROL ENGINEERING SPECIALIST       2           65998    66000 - 70000  1.0000       HOUSTON    TX
+3    CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION           SYSTEMS ANALYSIS SENIOR       1           75200   75200 - 132500  1.0000        RESTON    VA
+4    CERTIFIED                     ISR INFO WAY, INC.            SR. SOFTWARE DEVELOPER       1           84906   84906 - 105000  1.0000       CHICAGO    IL
+5    CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION SHARED INFORMATION SUPPORT SENIOR       1           90800   90800 - 120300  1.0000        MCLEAN    VA
+6    CERTIFIED         UNIVERSITY OF TEXAS AT EL PASO               PROGRAM COORDINATOR       1           33987          33987 -  1.0000       EL PASO    TX
+7    CERTIFIED                              AIMIC INC                PROGRAMMER ANALYST       1           47431          47431 -  1.0000       BUFFALO    NY
+8    CERTIFIED    E.I. DU PONT DE NEMOURS AND COMPANY MECHANICAL ENGINEERING CONSULTANT       1           96013   96013 - 128340  1.0000    WILMINGTON    DE
+9    CERTIFIED                       CCH INCORPORATED            PROGRAMMER ANALYST III       1           98333   98333 - 108660  1.0000      TORRANCE    CA
+10   CERTIFIED                              AIMIC INC                PROGRAMMER ANALYST       1           47431       47431.00 -  1.0000       BUFFALO    NY
+```
+
+In fact, there were well over 1111 rows (the maximum that can be printed) that have a WAGE_PW less than 1.0000.  Yet only one of those was CERTIFIED and it
+was very nearly equal to one.  This suggests that the validation of these applications is very good at catching a planned wage below the prevailing wage but
+is very bad at catching obvious errors in data entry.
+
+### 5. Use of Checkboxes ###
+
+Below the Sort select list and Ascending/Descending radio buttons are checkboxes for every one of the available fields.  At intialization, the ones that
+are checked to display are CASE_STATUS, EMPLOYER_NAME, JOB_TITLE, TOTAL.WORKERS, WAGE_RATE_OF_PAY, WAGE_PW, WORKSITE_CITY, and WORKSITE_STATE.  In the
+prior section above, the checkbox for PREVAILING_WAGE was also checked so that it displays in the outputs for that section.  Following is the final
+output from the prior section with PREVAILING_WAGE unchecked:
+
+```
+[1] "Search CASE_STATUS for CERTIFIED"
+[1] "Sort by WAGE_PW, Ascending"
+[1] ""
+   CASE_STATUS                          EMPLOYER_NAME                         JOB_TITLE WORKERS WAGE_RATE_OF_PAY WAGE_PW WORKSITE_CITY STATE
+1    CERTIFIED A&B HOTEL MANAGEMENT & INVESTMENT INC.                 MARKETING ANALYST       1          51557 -  0.9979     PLACENTIA    CA
+2    CERTIFIED        OMRON OILFIELD AND MARINE, INC.    CONTROL ENGINEERING SPECIALIST       2    66000 - 70000  1.0000       HOUSTON    TX
+3    CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION           SYSTEMS ANALYSIS SENIOR       1   75200 - 132500  1.0000        RESTON    VA
+4    CERTIFIED                     ISR INFO WAY, INC.            SR. SOFTWARE DEVELOPER       1   84906 - 105000  1.0000       CHICAGO    IL
+5    CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION SHARED INFORMATION SUPPORT SENIOR       1   90800 - 120300  1.0000        MCLEAN    VA
+6    CERTIFIED         UNIVERSITY OF TEXAS AT EL PASO               PROGRAM COORDINATOR       1          33987 -  1.0000       EL PASO    TX
+7    CERTIFIED                              AIMIC INC                PROGRAMMER ANALYST       1          47431 -  1.0000       BUFFALO    NY
+8    CERTIFIED    E.I. DU PONT DE NEMOURS AND COMPANY MECHANICAL ENGINEERING CONSULTANT       1   96013 - 128340  1.0000    WILMINGTON    DE
+9    CERTIFIED                       CCH INCORPORATED            PROGRAMMER ANALYST III       1   98333 - 108660  1.0000      TORRANCE    CA
+10   CERTIFIED                              AIMIC INC                PROGRAMMER ANALYST       1       47431.00 -  1.0000       BUFFALO    NY
+```
+
+Any combination of the checkboxes may be checked so that any combination of fields can be displayed.  The only limitation is that the fields will
+always display in the same order as the order of the checkboxes.
+
+### 6. Use of Other Options ###
+
+The remaining options are the Maximum Column Width, Maximum Total Width, and Maximum Total Rows.  The following shows the effect of a Maximum Column Width
+of 20 on the last output from the prior section:
+
+```
+[1] "Search CASE_STATUS for CERTIFIED"
+[1] "Sort by WAGE_PW, Ascending"
+[1] ""
+   CASE_STATUS        EMPLOYER_NAME            JOB_TITLE WORKERS WAGE_RATE_OF_PAY WAGE_PW WORKSITE_CITY STATE
+1    CERTIFIED A&B HOTEL MANAGEMENT    MARKETING ANALYST       1          51557 -  0.9979     PLACENTIA    CA
+2    CERTIFIED OMRON OILFIELD AND M CONTROL ENGINEERING        2    66000 - 70000  1.0000       HOUSTON    TX
+3    CERTIFIED FEDERAL HOME LOAN MO SYSTEMS ANALYSIS SEN       1   75200 - 132500  1.0000        RESTON    VA
+4    CERTIFIED   ISR INFO WAY, INC. SR. SOFTWARE DEVELOP       1   84906 - 105000  1.0000       CHICAGO    IL
+5    CERTIFIED FEDERAL HOME LOAN MO SHARED INFORMATION S       1   90800 - 120300  1.0000        MCLEAN    VA
+6    CERTIFIED UNIVERSITY OF TEXAS   PROGRAM COORDINATOR       1          33987 -  1.0000       EL PASO    TX
+7    CERTIFIED            AIMIC INC   PROGRAMMER ANALYST       1          47431 -  1.0000       BUFFALO    NY
+8    CERTIFIED E.I. DU PONT DE NEMO MECHANICAL ENGINEERI       1   96013 - 128340  1.0000    WILMINGTON    DE
+9    CERTIFIED     CCH INCORPORATED PROGRAMMER ANALYST I       1   98333 - 108660  1.0000      TORRANCE    CA
+10   CERTIFIED            AIMIC INC   PROGRAMMER ANALYST       1       47431.00 -  1.0000       BUFFALO    NY
+```
+
+As can be seen, EMPLOYER NAME and JOB_TITLE were both truncated to a maximum of 20 characters.  SOC_NAME, if it were present, would have been similarly
+truncated.
+
+The following shows the effect of a Maximum Total Width of 100 on the above example (with Maximum Column Width set back to 40):
+
+```
+[1] "Search CASE_STATUS for CERTIFIED"
+[1] "Sort by WAGE_PW, Ascending"
+[1] ""
+   CASE_STATUS                          EMPLOYER_NAME                         JOB_TITLE WORKERS
+1    CERTIFIED A&B HOTEL MANAGEMENT & INVESTMENT INC.                 MARKETING ANALYST       1
+2    CERTIFIED        OMRON OILFIELD AND MARINE, INC.    CONTROL ENGINEERING SPECIALIST       2
+3    CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION           SYSTEMS ANALYSIS SENIOR       1
+4    CERTIFIED                     ISR INFO WAY, INC.            SR. SOFTWARE DEVELOPER       1
+5    CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION SHARED INFORMATION SUPPORT SENIOR       1
+6    CERTIFIED         UNIVERSITY OF TEXAS AT EL PASO               PROGRAM COORDINATOR       1
+7    CERTIFIED                              AIMIC INC                PROGRAMMER ANALYST       1
+8    CERTIFIED    E.I. DU PONT DE NEMOURS AND COMPANY MECHANICAL ENGINEERING CONSULTANT       1
+9    CERTIFIED                       CCH INCORPORATED            PROGRAMMER ANALYST III       1
+10   CERTIFIED                              AIMIC INC                PROGRAMMER ANALYST       1
+   WAGE_RATE_OF_PAY WAGE_PW WORKSITE_CITY STATE
+1           51557 -  0.9979     PLACENTIA    CA
+2     66000 - 70000  1.0000       HOUSTON    TX
+3    75200 - 132500  1.0000        RESTON    VA
+4    84906 - 105000  1.0000       CHICAGO    IL
+5    90800 - 120300  1.0000        MCLEAN    VA
+6           33987 -  1.0000       EL PASO    TX
+7           47431 -  1.0000       BUFFALO    NY
+8    96013 - 128340  1.0000    WILMINGTON    DE
+9    98333 - 108660  1.0000      TORRANCE    CA
+10       47431.00 -  1.0000       BUFFALO    NY
+```
+
+As can be seen, the output is wrapped so that it does not surpass 100 characters and the row number is repeated.
+
+Finally, the following shows the effect of a Maximum Total Rows of 4 (with Maximum Total Width reset to 240):
+
+```
+[1] "Search CASE_STATUS for CERTIFIED"
+[1] "Sort by WAGE_PW, Ascending"
+[1] ""
+  CASE_STATUS                          EMPLOYER_NAME                         JOB_TITLE WORKERS WAGE_RATE_OF_PAY WAGE_PW WORKSITE_CITY STATE
+1   CERTIFIED A&B HOTEL MANAGEMENT & INVESTMENT INC.                 MARKETING ANALYST       1          51557 -  0.9979     PLACENTIA    CA
+2   CERTIFIED        OMRON OILFIELD AND MARINE, INC.    CONTROL ENGINEERING SPECIALIST       2    66000 - 70000  1.0000       HOUSTON    TX
+3   CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION           SYSTEMS ANALYSIS SENIOR       1   75200 - 132500  1.0000        RESTON    VA
+4   CERTIFIED                     ISR INFO WAY, INC.            SR. SOFTWARE DEVELOPER       1   84906 - 105000  1.0000       CHICAGO    IL
+5   CERTIFIED FEDERAL HOME LOAN MORTGAGE CORPORATION SHARED INFORMATION SUPPORT SENIOR       1   90800 - 120300  1.0000        MCLEAN    VA
+```
+
+As can be seen, the number of rows is simply truncated to 5.
