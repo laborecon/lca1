@@ -1,5 +1,5 @@
 shinyUI(pageWithSidebar(
-    headerPanel("H-1B Disclosure Data FY15 Q4"),
+    headerPanel("H-1B Disclosure Data, Oct 2014 - Dec 2015"),
     sidebarPanel(
         width = 2,
         # List fields that can be searched
